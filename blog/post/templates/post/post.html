@@ -1,0 +1,13 @@
+{% extends 'basic.html' %}
+
+{% block content %}
+  <div class="container-fluid">
+    <div class="row justify-content-center">
+      <div class="col-8">
+        <h2>{{post.title}}</h2>
+        <p>{{ post.text }}</p>
+        <a class="btn btn-primary" href="{% url 'updated_post' post.pk %}" role="button">Change</a>
+      </div>
+    </div>
+  </div>
+{% endblock content %}

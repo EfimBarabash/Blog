@@ -10,6 +10,12 @@ def index(request):
     return render(request, 'post/index.html', context)
 
 
+def get_post(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    context = {'post': post}
+    return render(request, 'post/post.html', context)
+
+
 def add_post(request):
     if request.method == "POST":
         form = AddPost(data=request.POST)
