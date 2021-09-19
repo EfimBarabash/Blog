@@ -1,4 +1,4 @@
-{% extends 'basic.html' %}
+{% extends 'base.html' %}
 
 {% block content %}
   <div class="container-fluid">
@@ -6,7 +6,10 @@
       <div class="col-8">
         <h2>{{post.title}}</h2>
         <p>{{ post.text }}</p>
-        <a class="btn btn-primary" href="{% url 'updated_post' post.pk %}" role="button">Change</a>
+        {% if user == post.owner %}
+          <a class="btn btn-primary" href="{% url 'updated_post' post.pk %}" role="button">Change</a>
+          <a class="btn btn-primary" href="{% url 'del_post' post.pk %}" role="button">Delete</a>
+        {% endif %}
       </div>
     </div>
   </div>

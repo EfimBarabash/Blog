@@ -6,11 +6,8 @@
     <form action="" method="post">
         {% csrf_token %}
         {% bootstrap_form form %}
-        {% buttons %}
-        <button type="submit" class="btn btn-primary">
-            Submit
-        </button>
-        {% endbuttons %}
+        {% buttons submit='Save'%}{% endbuttons %}
+        <input type="hidden" name="next" value="{{ next }}">
     </form>
 </div>
 {% endblock content %}

@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 
 class Post(models.Model):
@@ -7,6 +8,7 @@ class Post(models.Model):
     created_date = models.DateTimeField(auto_now_add=True)
     updated_date = models.DateTimeField(auto_now=True)
     published = models.BooleanField()
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='posts')
 
     def __str__(self):
         return self.title

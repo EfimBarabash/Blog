@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Profile {{ user.username }}</h2>
+    <hr>
+    <h3>Photo</h3>
+<!--    <img src="{{ profile.photo.url }}" alt="">-->
+    <h3>About me:</h3>
+    <p>{{ profile.about_me }}</p>
+    <h3>Birthday</h3>
+    <p>{{ profile.birthday }}</p>
+    <hr>
+    <br>
+    <a href="{% url 'edit_profile' %}">edit profile</a>
+{% endblock content %}
