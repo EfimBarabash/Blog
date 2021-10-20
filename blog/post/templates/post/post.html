@@ -1,8 +1,8 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block content %}
-  <div class="container-fluid">
-    <div class="row justify-content-center">
+  <div class="container-fluid p-4">
+    <div class="row justify-content-center g-4">
       <div class="col-8">
         <h2>{{post.title}}</h2>
         <p>{{ post.text }}</p>
@@ -10,7 +10,23 @@
           <a class="btn btn-primary" href="{% url 'updated_post' post.pk %}" role="button">Change</a>
           <a class="btn btn-primary" href="{% url 'del_post' post.pk %}" role="button">Delete</a>
         {% endif %}
+        <a class="btn btn-primary" href="{% url 'add_comment' post.pk %}" role="button">Comment</a>
+        <button id="like" onclick="LikePost('{%url 'like'%}', {{ post.pk }})" class="{% if like %}btn btn-success{%else%}btn btn-danger{%endif%}">like {{ post.like.count }}</button>
       </div>
     </div>
   </div>
+<div class="container-fluid p-4">
+  <div class="row justify-content-center g-4">
+    <h2 class="text-center">Comments to "{{ post.title }}"</h2>
+    {% for comment in post.post_comments.all %}
+      <div class="col-8">
+        <a href="{% url 'profile' comment.owner.profile.id %}">{{ comment.owner.username }}</a>
+        <p>{{ comment.date|date:'d/m/Y' }}</p>
+        <p>{{ comment.text }}</p>
+      </div>
+    {% endfor %}
+    </div>
+</div>
+
+<script src="{% static 'js/like_to_post.js' %}"></script>
 {% endblock content %}

@@ -1,8 +1,9 @@
 {% extends 'base.html' %}
+{% load bootstrap5 %}
 
 {% block content %}
 <div class="container">
-    <form action="" method="post" enctype="multipart/form-data">
+    <form class="border" action="" method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {% bootstrap_form user_form %}
         {% bootstrap_form profile_form %}

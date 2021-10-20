@@ -17,14 +17,16 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'index' %}">Home</a>
                 </li>
+                {% if user.is_authenticated %}
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'add_post' %}">Create post</a>
                 </li>
+                {% endif %}
             </ul>
             <ul class="nav justify-content-end">
                 {% if user.is_authenticated %}
                     <li class="nav-item">
-                        <a class="nav-link" href='{% url "profile"%}'>Profile</a>
+                        <a class="nav-link" href='{% url "profile" user.profile.id %}'>Profile</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href='{% url "logout"%}'>Log out</a>
@@ -46,6 +48,7 @@
     {% block content %}
     {% endblock content %}
 </section>
+
 
 {% bootstrap_javascript %}
 </body>

@@ -2,8 +2,9 @@
 {% load bootstrap5 %}
 
 {% block content %}
-<div class="container">
-    <form action="" method="post">
+<div class="container p-2">
+    <form class="border p-2 m-2" action="" method="post">
+        <h3 class="text-center">Create post</h3>
         {% csrf_token %}
         {% bootstrap_form form %}
         {% buttons %}

@@ -1,15 +1,59 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block content %}
-    <h2>Profile {{ user.username }}</h2>
-    <hr>
-    <h3>Photo</h3>
-<!--    <img src="{{ profile.photo.url }}" alt="">-->
-    <h3>About me:</h3>
-    <p>{{ profile.about_me }}</p>
-    <h3>Birthday</h3>
-    <p>{{ profile.birthday }}</p>
-    <hr>
-    <br>
-    <a href="{% url 'edit_profile' %}">edit profile</a>
+<div class="container-fluid p-4">
+    <div class="row g-4">
+        <div class="col-3">
+            {% if profile.photo %}
+            <img class="rounded img-fluid " src="{{ profile.photo.url }}" >
+            {% else %}
+            <img class="rounded img-fluid" src="{% static 'account/img/default_avatar.png' %}">
+            {% endif %}
+        </div>
+        <div class="col-9">
+            <p class="fw-bold">First name</p>
+            <p>{{ profile.user.first_name }}</p>
+            <p class="fw-bold">Last name</p>
+            <p>{{ profile.last_name }}</p>
+            <p class="fw-bold">About me</p>
+            <p>{{ profile.about_me }}</p>
+            <p class="fw-bold">Date of birth</p>
+            <p>{% if profile.birthday %}{{ profile.birthday }}{% endif %}</p>
+            {% if my_profile %}
+            <a class="btn btn-primary" href="{% url 'edit_profile' %}" role="button">Edit profile</a>
+            <a class="btn btn-primary" href="{% url 'password_change' %}" role="button">Change password</a>
+            {% endif %}
+        </div>
+        <div class="col-9">
+            {% if not my_profile %}
+            <button id="follow" class="btn {% if follow %}btn-danger{% else %}btn-success{%endif%}"
+                    onclick="Follow('{% url 'following' %}', {{ profile.user.id }})">
+                {% if follow %}
+                unfollow
+                {% else %}
+                follow
+                {% endif %}
+            </button>
+            {% endif %}
+            <a href="{% url 'list_follow' profile.id 0 %}" class="btn btn-primary">Following {{ profile.following.count}}</a>
+            <a href="{% url 'list_follow' profile.id 1 %}" class="btn btn-primary">Followers {{ profile.followers.count}}</a>
+        </div>
+    </div>
+    <div class="container-fluid p-4">
+        <div class="row justify-content-center g-4">
+            <h2 class="text-center">{% if not my_profile %}{{profile.user.username}}{% else %}My{%endif%} posts</h2>
+            {% for post in posts %}
+            <div class="col-8">
+                <h3>{{post.title}}</h3>
+                <a href="{% url 'profile' post.owner.profile.id %}">{{ post.owner.username}}</a>
+                <p>{{ post.updated_date|date:'d/m/Y'}}</p>
+                <p>{{post.text|truncatewords:15}}</p>
+                <a class="btn btn-primary" href="{% url 'get_post' post.pk %}" role="button">Read post</a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<script src="{% static 'js/follow_to_profile.js' %}"></script>
 {% endblock content %}

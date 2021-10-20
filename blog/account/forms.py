@@ -23,8 +23,10 @@ class EditProfileForm(forms.ModelForm):
 
     class Meta:
         model = Profile
-        exclude = ('user',)
-
+        exclude = ('user', 'following')
+        widgets = {
+            'birthday': forms.DateInput(attrs={'type': 'date'})
+        }
 
 class EditUserForm(forms.ModelForm):
 
@@ -32,3 +34,8 @@ class EditUserForm(forms.ModelForm):
         model = User
         fields = ('first_name', 'last_name', 'email')
 
+
+# class SubscribeForm(forms.Form):
+#     subscribe = forms.CharField(widget=forms.HiddenInput, va)
+#
+#     def __init__(self, follow):
