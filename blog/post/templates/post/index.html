@@ -1,21 +1,55 @@
-{% extends 'basic.html' %}
+{% extends 'base.html' %}
 {% block title %}
 <title>List of post</title>
 {% endblock title %}
 
 {% block content %}
 <div class="container-fluid">
-    <div class="row justify-content-center">
-    <h2 class="text-center">List of posts</h2>
-    {% for post in posts %}
-
-            <div class="col-8">
-                <h3>{{post.title}}</h3>
-                <p>{{post.text|truncatewords:15}}</p>
-                <a class="btn btn-primary" href="{% url 'get_post' post.pk %}" role="button">Read post</a>
-            </div>
-
-    {% endfor %}
-     </div>
+    <div class="row">
+        <div class="btn-group">
+            <a href="{% url 'index' %}" class="btn btn btn-outline-primary {% if request.path == '/'%}active{% endif %}" aria-current="page">All posts</a>
+            <a href="{% url 'liked' %}" class="btn btn btn-outline-primary {% if request.path == '/liked/'%}active{% endif %} ">Liked</a>
+            <a href="{% url 'by_subscription' %}" class="btn btn btn-outline-primary {% if request.path == '/by_subscription/'%}active{% endif %}">By subscription</a>
+        </div>
+    </div>
 </div>
+
+{% if posts %}
+<div class="container-fluid p-4">
+    <div class="row justify-content-center g-4">
+        {% for post in posts %}
+        <div class="col-8">
+            <h3>{{post.title}}</h3>
+            <a href="{% url 'profile' post.owner.profile.id %}">{{ post.owner.username}}</a>
+            <p>{{ post.updated_date|date:'d/m/Y'}}</p>
+            <p>{{post.text|truncatewords:15}}</p>
+            <a class="btn btn-primary" href="{% url 'get_post' post.pk %}" role="button">Read post</a>
+        </div>
+        {% endfor %}
+        <div class="col-8">
+            <nav aria-label="Page navigation example">
+                <ul class="pagination">
+                    <li class="page-item {% if not posts.has_previous %}disabled{% endif %}">
+                        <a class="page-link"
+                           href="{% if posts.has_previous %}?page={{posts.previous_page_number}}{% endif %}"
+                           aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    {% for number in posts.paginator.page_range %}
+                    <li class="page-item {% if posts.number == number %}active{% endif %}"><a class="page-link"
+                                                                                              href="?page={{number}}">{{number}}</a></li>
+                    {% endfor %}
+                    <li class="page-item {% if not posts.has_next %}disabled{% endif %}">
+                        <a class="page-link" href="{% if posts.has_next %}?page={{posts.next_page_number}}{% endif %}"
+                           aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
+{% endif %}
 {% endblock content %}

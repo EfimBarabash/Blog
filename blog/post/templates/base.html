@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+    {% load bootstrap5 %}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    {% bootstrap_css %}
+    {% block title %}
+    <title>Home page</title>
+    {% endblock title %}
+</head>
+<body>
+<header>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <ul class="nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'index' %}">Home</a>
+                </li>
+                {% if user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'add_post' %}">Create post</a>
+                </li>
+                {% endif %}
+            </ul>
+            <ul class="nav justify-content-end">
+                {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link" href='{% url "profile" user.profile.id %}'>Profile</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href='{% url "logout"%}'>Log out</a>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'register' %}">Sing up</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'login' %}">Log in</a>
+                    </li>
+                {% endif %}
+            </ul>
+
+        </div>
+    </nav>
+</header>
+<section>
+    {% block content %}
+    {% endblock content %}
+</section>
+
+
+{% bootstrap_javascript %}
+</body>
+</html>

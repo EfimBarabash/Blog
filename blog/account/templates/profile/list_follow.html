@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<div class="row justify-content-center">
+    {% for follow in list_follow %}
+    <div class="col-8">
+        <a href="{% url 'profile' follow.id %}"><p>{{follow.user.username}}</p></a>
+        <p>{{ follow.about_me}}</p>
+        <hr>
+    </div>
+    {% endfor %}
+</div>
+{% endblock content %}

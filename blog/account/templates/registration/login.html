@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load bootstrap5 %}
+
+{% block content %}
+<div class="container p-4">
+    <h3 class="text-center" >Log-in</h3>
+    <form action="" method="post">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        {% buttons submit='log in'%}{% endbuttons %}
+        <input type="hidden" value="{{ next }}" name="{{ next }}">
+    </form>
+
+</div>
+{% endblock content %}
